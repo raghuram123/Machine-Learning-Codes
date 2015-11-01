@@ -1,0 +1,26 @@
+for i=1:length(train_examples)
+    for j=1:length(train_examples(i).words)
+        word = train_examples(i).words{j};
+       
+         
+            current_count = wordfreq.get(word);
+            if (isempty(current_count))
+                wordfreq.put(word, 1);    
+            else
+               wordfreq.put(word, current_count+1);  % increment
+            end
+    end    
+end
+
+a=wordfreq.keySet.toArray.cell;
+freq={};
+for i=1:wordfreq.size()
+	freq(i).word=a(i);
+	freq(i).value=wordfreq.get(char(a(i)));
+end
+
+[~,sx]=sort([freq.value]);
+ss=freq(sx);
+freq=ss;
+freq1=freq(1:length(freq)/2); %freq1 is the least probable N/2 words of training examples. 
+freq2=freq(length(freq)/2+1:length(freq));  %freq2 is the most probable N/2 words of training examples.
